@@ -1,16 +1,33 @@
+<!-- inventoryct_list.html -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>InventoryCt</title>
+    <title>InventoryCt List</title>
 </head>
 <body>
 
-<h1>InventoryCt</h1>
-{% for inventory_ct in inventory_cts %}
-    <p>{{ inventory_ct.unnamed_0 }} {{ inventory_ct.on_hand }}</p>
-{% endfor %}
+<h1>InventoryCt List</h1>
 
-<a href="{% url 'index' %}">Back to Index</a>
+<table>
+    <thead>
+        <tr>
+            <th>InventoryCt ID</th>
+            <th>On Hand</th>
+            <th>Allcolor ID</th>
+            <th>Other Fields from Allcolor</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in result %}
+        <tr>
+            <td>{{ item.unnamed_0 }}</td>
+            <td>{{ item.on_hand }}</td>
+            <td>{{ item.allcolor.string_field_1 }}</td>
+            <td>{{ item.allcolor.string_field_2 }} {{ item.allcolor.string_field_3 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 </body>
 </html>

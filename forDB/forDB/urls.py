@@ -28,4 +28,6 @@ urlpatterns = [
     path('ord1s/', ord1_list, name='ord1_list'),
     path('calendars/', calendar_list, name='calendar_list'),
     # path('my_view/', my_view, name='my_view'),  # 이 줄을 제거하거나 주석 처리하세요.
+
+
 ]
