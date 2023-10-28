@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>InventoryCt</title>
+</head>
+<body>
+
+<h1>InventoryCt</h1>
+{% for inventory_ct in inventory_cts %}
+    <p>{{ inventory_ct.unnamed_0 }} {{ inventory_ct.on_hand }}</p>
+{% endfor %}
+
+<a href="{% url 'index' %}">Back to Index</a>
+
+</body>
+</html>

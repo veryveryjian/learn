@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ord1</title>
+</head>
+<body>
+
+<h1>Ord1</h1>
+{% for ord in ords %}
+    <p>{{ ord.item }} {{ ord.pcs }}</p>
+{% endfor %}
+
+<a href="{% url 'index' %}">Back to Index</a>
+
+</body>
+</html>

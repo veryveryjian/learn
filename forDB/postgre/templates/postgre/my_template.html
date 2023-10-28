@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My View</title>
+</head>
+<body>
+
+<h1>Allcolor</h1>
+{% for allcolor in allcolors %}
+    <p>{{ allcolor.string_field_0 }} {{ allcolor.string_field_1 }} {{ allcolor.string_field_2 }} {{ allcolor.string_field_3 }} {{ allcolor.string_field_4 }} {{ allcolor.string_field_5 }}</p>
+{% endfor %}
+
+<h1>InventoryCt</h1>
+{% for inventory_ct in inventory_cts %}
+    <p>{{ inventory_ct.unnamed_0 }} {{ inventory_ct.on_hand }}</p>
+{% endfor %}
+
+<h1>Ord1</h1>
+{% for ord in ords %}
+    <p>{{ ord.item }} {{ ord.pcs }}</p>
+{% endfor %}
+
+</body>
+</html>
