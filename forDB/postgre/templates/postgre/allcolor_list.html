@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Index</title>
+    <title>Allcolor</title>
 </head>
 <body>
 
-<h1>Models</h1>
-<ul>
-    <li><a href="{% url 'allcolor_list' %}">Allcolor</a></li>
-    <li><a href="{% url 'inventoryct_list' %}">InventoryCt</a></li>
-    <li><a href="{% url 'ord1_list' %}">Ord1</a></li>
-    <li><a href="{% url 'calendar_list' %}">Calendar</a></li>
-</ul>
+<h1>Allcolor</h1>
+{% for allcolor in allcolors %}
+    <p>{{ allcolor.string_field_0 }} {{ allcolor.string_field_1 }} {{ allcolor.string_field_2 }} {{ allcolor.string_field_3 }} {{ allcolor.string_field_4 }} {{ allcolor.string_field_5 }}</p>
+{% endfor %}
+
+<a href="{% url 'index' %}">Back to Index</a>
 
 </body>
 </html>
