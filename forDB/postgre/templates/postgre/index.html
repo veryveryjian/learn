@@ -1,3 +1,5 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,10 +9,9 @@
 
 <h1>Models</h1>
 <ul>
-    <li><a href="{% url 'allcolor_list' %}">Allcolor</a></li>
-    <li><a href="{% url 'inventoryct_list' %}">InventoryCt</a></li>
-    <li><a href="{% url 'ord1_list' %}">Ord1</a></li>
-    <li><a href="{% url 'calendar_list' %}">Calendar</a></li>
+    {% for name, url in urls.items %}
+        <li><a href="{% url url %}">{{ name }}</a></li>
+    {% endfor %}
 </ul>
 
 </body>

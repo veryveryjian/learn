@@ -52,10 +52,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'forDB.urls'
 
+
+import os  # 이 부분을 추가합니다.
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        #'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'postgre/templates')],  # 이 부분을 추가합니다.
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

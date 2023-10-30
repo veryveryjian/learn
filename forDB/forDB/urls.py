@@ -1,25 +1,8 @@
-"""
-URL configuration for forDB project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+# urls.py
 from django.contrib import admin
 from django.urls import path
-# urls.py
+from postgre.views import index, allcolor_list, inventoryct_list, ord1_list, calendar_list, join_and_multiply,annotate_test,ct_ac_list,total_list, color_filter_list,color_filter_r1, graph
 
-from django.urls import path
-from postgre.views import index, allcolor_list, inventoryct_list, ord1_list, calendar_list
 
 urlpatterns = [
     path('', index, name='index'),
@@ -27,7 +10,12 @@ urlpatterns = [
     path('inventorycts/', inventoryct_list, name='inventoryct_list'),
     path('ord1s/', ord1_list, name='ord1_list'),
     path('calendars/', calendar_list, name='calendar_list'),
-    # path('my_view/', my_view, name='my_view'),  # 이 줄을 제거하거나 주석 처리하세요.
-
+    path('join/', join_and_multiply, name='join_and_multiply'),  # 이 부분을 추가합니다.
+    path('annotate_test/', annotate_test, name='annotate_test'),  # 이 부분을 추가합니다.
+    path('ct_acs/', ct_ac_list, name='ct_ac_list'),  # CtAc 모델의 데이터를 보여줄 URL 패턴을 추가
+    path('totals/', total_list, name='total_list'),  # 새로운 URL 패턴 추가
+    path('color_filter/', color_filter_list, name='color_filter_list'),  # 새로운 URL 패턴 추가
+    path('color_filter_r1/', color_filter_r1, name='color_filter_r1'),
+    path('graph/', graph, name='graph'),
 
 ]

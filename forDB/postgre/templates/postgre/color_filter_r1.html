@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Color Filter R1</title>
+</head>
+<body>
+    <h1>Color Filter R1</h1>
+    <form method="get" action="">
+        <select name="color_code" onchange="this.form.submit()">
+            <option value="">--Select Color--</option>
+            {% for color_code in color_codes %}
+                <option value="{{ color_code }}" {% if color_code == selected_color %}selected{% endif %}>
+                    {{ color_code }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+    <br>
+        <ul>
+        {% for color_code, total_qtycbm in total_qtycbm.items %}
+            <li>{{ color_code }}: {{ total_qtycbm }}</li>
+        {% endfor %}
+    </ul>
+    <table>
+        <tr>
+            <th>Unnamed: 0</th>
+            <th>On Hand</th>
+            <th>Item</th>
+            <th>CBM</th>
+            <th>Color Code</th>
+            <th>CT1</th>
+            <th>CT2</th>
+            <th>CT3</th>
+            <th>QtyCBM</th>
+        </tr>
+        {% for ct_ac in ct_acs %}
+            <tr>
+                <td>{{ ct_ac.unnamed_0 }}</td>
+                <td>{{ ct_ac.on_hand }}</td>
+                <td>{{ ct_ac.item }}</td>
+                <td>{{ ct_ac.cbm }}</td>
+                <td>{{ ct_ac.color_code }}</td>
+                <td>{{ ct_ac.ct1 }}</td>
+                <td>{{ ct_ac.ct2 }}</td>
+                <td>{{ ct_ac.ct3 }}</td>
+                <td>{{ ct_ac.qtycbm }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <ul>
+        {% for color_code, total_qtycbm in total_qtycbm.items %}
+            <li>{{ color_code }}: {{ total_qtycbm }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+</body>
+</html>

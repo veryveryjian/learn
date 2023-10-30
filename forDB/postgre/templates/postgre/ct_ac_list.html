@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CtAc List</title>
+</head>
+<body>
+<!--
+    <h1>CtAc List</h1>
+    <table>
+        <tr>
+            <th>Unnamed: 0</th>
+            <th>On Hand</th>
+            <th>Item</th>
+            <th>CBM</th>
+            <th>Color Code</th>
+            <th>CT1</th>
+            <th>CT2</th>
+            <th>CT3</th>
+        </tr>
+        {% for ct_ac in ct_acs %}
+            <tr>
+                <td>{{ ct_ac.unnamed_0 }}</td>
+                <td>{{ ct_ac.on_hand }}</td>
+                <td>{{ ct_ac.item }}</td>
+                <td>{{ ct_ac.cbm }}</td>
+                <td>{{ ct_ac.color_code }}</td>
+                <td>{{ ct_ac.ct1 }}</td>
+                <td>{{ ct_ac.ct2 }}</td>
+                <td>{{ ct_ac.ct3 }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CtAc List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>CtAc List</h1>
+    <table>
+        <tr>
+            <th>Unnamed: 0</th>
+            <th>On Hand</th>
+            <th>Item</th>
+            <th>CBM</th>
+            <th>Color Code</th>
+            <th>CT1</th>
+            <th>CT2</th>
+            <th>CT3</th>
+        </tr>
+        {% for ct_ac in ct_acs %}
+            <tr>
+                <td>{{ ct_ac.unnamed_0 }}</td>
+                <td>{{ ct_ac.on_hand }}</td>
+                <td>{{ ct_ac.item }}</td>
+                <td>{{ ct_ac.cbm }}</td>
+                <td>{{ ct_ac.color_code }}</td>
+                <td>{{ ct_ac.ct1 }}</td>
+                <td>{{ ct_ac.ct2 }}</td>
+                <td>{{ ct_ac.ct3 }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+
+</body>
+</html>
+
+</body>
+</html>
