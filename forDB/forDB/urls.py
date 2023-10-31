@@ -2,7 +2,15 @@
 from django.contrib import admin
 from django.urls import path
 from postgre.views import index, allcolor_list, inventoryct_list, ord1_list, calendar_list, join_and_multiply,annotate_test,ct_ac_list,total_list, color_filter_list,color_filter_r1, graph
-from postgre.views import ord2ac_list,ord3ac_list, ordNware
+from postgre.views import ord2ac_list,ord3ac_list, ordNware, color_filter_r2
+from postgre.views import ctcroom
+from postgre.views import ctcroom_r1
+from postgre.views import export_to_excel, model_data
+
+
+urlpatterns = [
+    path('ctcroom/', ctcroom, name='ctcroom'),
+]
 
 
 urlpatterns = [
@@ -21,5 +29,10 @@ urlpatterns = [
     path('ord2acs/', ord2ac_list, name='ord2ac_list'),
     path('ord3acs/',ord3ac_list, name='ord3ac_list'),
     path('ordNware/', ordNware, name='ordNware'),
+    path('color_filter_r2/', color_filter_r2, name='color_filter_r2'),  # Add URL pattern for color_filter_r2 view
+    path('ctcroom/', ctcroom, name='ctcroom'),
+    path('ctcroom_r1/', ctcroom_r1, name='ctcroom_r1'),
+    path('export_to_excel/', export_to_excel, name='export_to_excel'),
+    path('model_data/', model_data, name='model_data'),  # 추가
 
 ]

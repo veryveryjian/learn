@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<!-- templates/postgre/color_filter_r2.html -->
+
+
+{% block content %}
+
+  <h1>Color Filter R2</h1>
+
+  <form method="get" action="">
+    <label for="color_code">Select Color:</label>
+    <select name="color_code" id="color_code">
+      <option value="">--All Colors--</option>
+      {% for color_code in color_codes %}
+        <option value="{{ color_code }}" {% if selected_color == color_code %}selected{% endif %}>{{ color_code }}</option>
+      {% endfor %}
+    </select>
+    <input type="submit" value="Filter">
+  </form>
+
+  <table>
+    <tr>
+      <th>Color Code</th>
+      <th>Quantity * CBM</th>
+    </tr>
+    {% for ct_ac in ct_acs %}
+      <tr>
+        <td>{{ ct_ac.color_code }}</td>
+        <td>{{ ct_ac.qtycbm }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <a href="?download=true">Download as Excel</a>  <!-- Link to download the Excel file -->
+
+{% endblock %}

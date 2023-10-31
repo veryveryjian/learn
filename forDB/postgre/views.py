@@ -24,7 +24,7 @@ def inventoryct_list(request):
 
 def index(request):
     urls = {
-        'All Colors': 'allcolor_list',
+        ' All Colors': 'allcolor_list',
         'Inventory CTs': 'inventoryct_list',
         'ORD1s': 'ord1_list',
         'Calendars': 'calendar_list',
@@ -35,6 +35,12 @@ def index(request):
         'Color Filter List': 'color_filter_list',
         'Color Filter R1': 'color_filter_r1',
         'Graph': 'graph',
+        'ORD2ACs': 'ord2ac_list',
+        'ORD3ACs': 'ord3ac_list',
+        'ORDNware': 'ordNware',
+        'CTC Room': 'ctcroom',
+        'CTC Room R1': 'ctcroom_r1',
+        'Export to Excel': 'export_to_excel',
     }
     return render(request, 'postgre/index.html', {'urls': urls})
 
@@ -206,9 +212,129 @@ def ord3ac_list(request):
 from .models import Ord2Ac, CtAc
 from django.db.models import Q
 def ordNware(request):
-    # Ord2Ac와 CtAc를 조인
+    # Ord2Ac와 CtAc를 조인git
     result = Ord2Ac.objects.filter(
         Q(item__in=CtAc.objects.values_list('item', flat=True))
     )
     # 결과를 템플릿에 전달
     return render(request, 'postgre/ordNware.html', {'results': result})
+
+from django.http import HttpResponse
+import openpyxl
+from django.db.models import F, Sum
+
+
+def color_filter_r2(request):
+    ct_acs = CtAc.objects.all()
+    color_codes = CtAc.objects.values_list('color_code', flat=True).distinct()
+    selected_color = request.GET.get('color_code')
+    if selected_color:
+        ct_acs = ct_acs.filter(color_code=selected_color)
+
+    ct_acs = ct_acs.annotate(qtycbm=F('on_hand') * F('cbm'))
+
+    total_qtycbm = {}
+    for color_code in color_codes:
+        filtered_ct_acs = CtAc.objects.filter(color_code=color_code)
+        total = 0
+        for ct_ac in filtered_ct_acs:
+            total += ct_ac.on_hand * ct_ac.cbm
+        total_qtycbm[color_code] = total
+
+    # 엑셀 파일 생성 및 작성
+    if 'download' in request.GET:
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.append(['Color Code', 'On Hand', 'CBM', 'Quantity * CBM'])
+        for ct_ac in ct_acs:
+            ws.append([ct_ac.color_code, ct_ac.on_hand, ct_ac.cbm, ct_ac.qtycbm])
+
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=color_filter_r2.xlsx'
+        wb.save(response)
+        return response
+
+    return render(request, 'postgre/color_filter_r2.html', {
+        'ct_acs': ct_acs,
+        'color_codes': color_codes,
+        'selected_color': selected_color,
+        'total_qtycbm': total_qtycbm,
+    })
+
+from .models import CtRoomStatus
+def ctcroom(request):
+    data = CtRoomStatus.objects.all()
+    context = {'data': data}
+    return render(request, 'postgre/ctcroom.html', context)
+
+
+from .models import CtRoomStatus_r1
+
+# views.py
+
+from django.shortcuts import render
+from .models import CtRoomStatus
+
+from django.db.models import F
+
+def ctcroom_r1(request):
+    data = CtRoomStatus.objects.all()
+    zeroCBM_sum = 0
+    for row in data:
+        row.on_hand_diff = row.ny - row.on_hand if row.ny and row.on_hand else None
+        row.zero = 0 if row.on_hand_diff and row.on_hand_diff > 0 else row.on_hand_diff
+        row.zeroCBM = row.zero * row.cbm if row.zero is not None and row.cbm is not None else None
+        if row.zeroCBM is not None:
+            zeroCBM_sum += row.zeroCBM
+    context = {'data': data, 'zeroCBM_sum': zeroCBM_sum}
+    return render(request, 'postgre/ctcroom_r1.html', context)
+
+
+import io
+from openpyxl import Workbook
+from django.http import FileResponse
+
+
+def export_to_excel(request):
+    data = CtRoomStatus.objects.all()
+
+    output = io.BytesIO()
+    wb = Workbook()
+    ws = wb.active
+
+    headers = ['CBM', 'Item', 'Total', 'NY', 'NJ4_2', 'CT', 'PA1_7', 'Num', 'On Hand', 'Date', 'NY - On Hand', 'Zero',
+               'ZeroCBM']
+    ws.append(headers)
+
+    zeroCBM_sum = 0
+    for row in data:
+        on_hand_diff = row.ny - row.on_hand if row.ny and row.on_hand else None
+        zero = 0 if on_hand_diff and on_hand_diff > 0 else on_hand_diff
+        zeroCBM = zero * row.cbm if zero is not None and row.cbm is not None else None
+        if zeroCBM is not None:
+            zeroCBM_sum += zeroCBM
+
+        row_data = [row.cbm, row.item, row.total, row.ny, row.nj4_2, row.ct, row.pa1_7, row.num, row.on_hand, row.date,
+                    on_hand_diff, zero, zeroCBM]
+        ws.append(row_data)
+
+    ws.append([''] * 12 + [zeroCBM_sum])
+
+    wb.save(output)
+    output.seek(0)
+
+    filename = 'ct_room_status.xlsx'
+    response = FileResponse(output, as_attachment=True, filename=filename)
+    return response
+
+from django.shortcuts import render
+from .models import Po300, Po301
+
+def model_data(request):
+    model_name = request.GET.get('model_name')
+    data = None
+    if model_name == 'Po300':
+        data = Po300.objects.all()
+    elif model_name == 'Po301':
+        data = Po301.objects.all()
+    return render(request, 'postgre/model_data.html', {'data': data, 'model_name': model_name})

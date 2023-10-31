@@ -1,8 +1,9 @@
-
-
 {% block content %}
-  <h1>Ct Room Status r1</h1>
-  <table>
+  <h1>Ct Room Status</h1>
+  <div>ZeroCBM Sum: {{ zeroCBM_sum }}</div>  <!-- 추가된 부분 -->
+  <a href="{% url 'export_to_excel' %}" class="btn btn-primary">Download Excel</a>
+
+<table>
     <tr>
       <th>CBM</th>
       <th>Item</th>
@@ -13,8 +14,10 @@
       <th>PA1_7</th>
       <th>Num</th>
       <th>On Hand</th>
-      <th>On Hand Diff</th>
       <th>Date</th>
+      <th>NY - On Hand</th>
+      <th>Zero</th>
+      <th>ZeroCBM</th>
     </tr>
     {% for row in data %}
       <tr>
@@ -27,9 +30,12 @@
         <td>{{ row.pa1_7 }}</td>
         <td>{{ row.num }}</td>
         <td>{{ row.on_hand }}</td>
-        <td>{{ row.on_hand_diff }}</td>
         <td>{{ row.date }}</td>
+        <td>{{ row.on_hand_diff }}</td>
+        <td>{{ row.zero }}</td>
+        <td>{{ row.zeroCBM }}</td>
       </tr>
     {% endfor %}
   </table>
+  <div>ZeroCBM Sum: {{ zeroCBM_sum }}</div>  <!-- 추가된 부분 -->
 {% endblock %}
