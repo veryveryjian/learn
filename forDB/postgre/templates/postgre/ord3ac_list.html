@@ -1,0 +1,28 @@
+<!-- ord3ac_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ord3Ac List</title>
+</head>
+<body>
+    <div>Total PCS*CBM: {{ total_pcs_cbm|floatformat:2 }}</div>
+    <h1>Ord3Ac List</h1>
+    <table border="1">
+        <tr>
+            <th>Item</th>
+            <th>Pcs</th>
+            <th>CBM</th>
+            <th>PcsCBM</th>
+        </tr>
+        {% for ord3ac in ord3acs %}
+            <tr>
+                <td>{{ ord3ac.item }}</td>
+                <td>{{ ord3ac.pcs }}</td>
+                <td>{{ ord3ac.cbm }}</td>
+                <td>{{ ord3ac.pcs_cbm|floatformat:2 }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

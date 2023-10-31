@@ -1,7 +1,6 @@
 #models
 from django.db import models
 
-
 class Calendar(models.Model):
     item = models.CharField(primary_key=True, max_length=50)
     pcs = models.IntegerField(blank=True, null=True)
@@ -35,8 +34,6 @@ class Allcolor(models.Model):
         db_table = 'allcolor'
 
 
-
-
 class InventoryCt(models.Model):
     unnamed_0 = models.CharField(db_column='Unnamed: 0', max_length=255, primary_key=True)
     on_hand = models.IntegerField(db_column='On Hand')
@@ -68,3 +65,22 @@ class CtAc(models.Model):
         managed = False
         db_table = 'ct_ac'
 
+class Ord2Ac(models.Model):
+    item = models.CharField(max_length=50, primary_key=True)  # primary_key=True 옵션 추가
+    pcs = models.IntegerField(blank=True, null=True)
+    cbm = models.FloatField(blank=True, null=True)
+    # 다른 필드들...
+
+    class Meta:
+        managed = False
+        db_table = 'ord2_ac'
+
+class Ord3Ac(models.Model):
+    item = models.CharField(max_length=50, primary_key=True)  # primary_key=True 옵션 추가
+    pcs = models.IntegerField(blank=True, null=True)
+    cbm = models.FloatField(blank=True, null=True)
+    # 다른 필드들...
+
+    class Meta:
+        managed = False
+        db_table = 'ord3_ac'

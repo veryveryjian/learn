@@ -184,3 +184,31 @@ def graph(request):
         'color_codes': list(color_codes),
         'total_qtycbm': total_qtycbm,
     })
+
+from .models import Ord2Ac
+
+def ord2ac_list(request):
+    ord2acs = Ord2Ac.objects.all()  # Ord2Ac 모델의 모든 데이터를 가져옴
+    return render(request, 'postgre/ord2ac_list.html', {'ord2acs': ord2acs})
+
+# views.py
+from .models import Ord3Ac
+def ord3ac_list(request):
+    ord3acs = Ord3Ac.objects.all()
+    total_pcs_cbm = 0
+    for ord3ac in ord3acs:
+        ord3ac.pcs_cbm = ord3ac.pcs * ord3ac.cbm
+        total_pcs_cbm += ord3ac.pcs_cbm
+    return render(request, 'postgre/ord3ac_list.html', {'ord3acs': ord3acs, 'total_pcs_cbm': total_pcs_cbm})
+
+
+#이게 뭐야 의미가 없어 ㅎㅎㅎㅎㅎㅎㅎㅎㅎ 그냥 두 테이블 조인되는지?ㅎㅎ 잘 못 생각했어
+from .models import Ord2Ac, CtAc
+from django.db.models import Q
+def ordNware(request):
+    # Ord2Ac와 CtAc를 조인
+    result = Ord2Ac.objects.filter(
+        Q(item__in=CtAc.objects.values_list('item', flat=True))
+    )
+    # 결과를 템플릿에 전달
+    return render(request, 'postgre/ordNware.html', {'results': result})
