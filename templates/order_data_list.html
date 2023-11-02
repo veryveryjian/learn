@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Data List</title>
+</head>
+<body>
+    <p>Total1: {{ total1 }}</p>
+    <p>Total2: {{ total2 }}</p>
+    <p>Total3: {{ total3 }}</p>
+    <p>Total4: {{ total4 }}</p>
+    <p>Total5: {{ total5 }}</p>
+    <p>Total6: {{ total6 }}</p>
+    <p>Total7: {{ total7 }}</p>
+    <p>Total8: {{ total8 }}</p>
+
+
+    <h1>Order Data List</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Avgg</th>
+                <th>CBM</th>
+                <th>Item</th>
+                <th>O305</th>
+                <th>O306</th>
+                <th>O307</th>
+                <th>O308</th>
+                <th>O309</th>
+                <th>O342</th>
+                <th>O344</th>
+                <th>O346</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.avgg }}</td>
+                    <td>{{ order.cbm }}</td>
+                    <td>{{ order.item }}</td>
+                    <td>{{ order.o305 }}</td>
+                    <td>{{ order.o306 }}</td>
+                    <td>{{ order.o307 }}</td>
+                    <td>{{ order.o308 }}</td>
+                    <td>{{ order.o309 }}</td>
+                    <td>{{ order.o342 }}</td>
+                    <td>{{ order.o344 }}</td>
+                    <td>{{ order.o346 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Total: {{ total }}</p>
+</body>
+</html>

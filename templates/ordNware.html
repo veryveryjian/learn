@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ordNware</title>
+</head>
+<body>
+    <h1>ordNware</h1>
+    <table border="1">
+        <tr>
+            <th>Item</th>
+            <th>Pcs</th>
+            <th>CBM</th>
+        </tr>
+        {% for result in results %}
+            <tr>
+                <td>{{ result.item }}</td>
+                <td>{{ result.pcs }}</td>
+                <td>{{ result.cbm }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

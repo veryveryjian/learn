@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ord2Ac List</title>
+</head>
+<body>
+
+<h1>Ord2Ac List</h1>
+
+<table border="1">
+    <tr>
+        <th>Item</th>
+        <th>Pcs</th>
+        <th>CBM</th>
+        <th>Color ID</th>
+    </tr>
+    {% for ord2ac in ord2acs %}
+        <tr>
+            <td>{{ ord2ac.item }}</td>
+            <td>{{ ord2ac.pcs }}</td>
+            <td>{{ ord2ac.cbm }}</td>
+            <td>{{ ord2ac.color_id }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

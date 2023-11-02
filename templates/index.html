@@ -1,0 +1,18 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+</head>
+<body>
+
+<h1>Models</h1>
+<ul>
+    {% for name, url in urls.items %}
+        <li><a href="{% url url %}">{{ name }}</a></li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

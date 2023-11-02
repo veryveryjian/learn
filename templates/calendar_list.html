@@ -1,0 +1,8 @@
+{% block content %}
+  <h1>Calendar List</h1>
+  <ul>
+    {% for calendar in calendars %}
+      <li>{{ calendar.item }} - {{ calendar.pcs }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

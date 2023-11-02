@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Total List</title>
+</head>
+<body>
+    <h1>Total List</h1>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>colorCode</th>
+            <th>Qty</th>
+            <th>CBM</th>
+            <th>Total</th>
+
+        </tr>
+        {% for result in results %}
+            <tr>
+                <td>{{ result.unnamed_0 }}</td>
+                <td>{{ result.color_code }}</td>
+                <td>{{ result.qty }}</td>
+                <td>{{ result.cbm }}</td>
+                <td>{{ result.total }}</td>
+
+
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

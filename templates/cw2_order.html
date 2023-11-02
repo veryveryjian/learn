@@ -1,0 +1,35 @@
+{% block content %}
+  <h1>CW2 Order Data</h1>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Avgg</th>
+      <th>CBM</th>
+      <th>Item</th>
+      <th>O305</th>
+      <th>O306</th>
+      <th>O307</th>
+      <th>O308</th>
+      <th>O309</th>
+      <th>O342</th>
+      <th>O344</th>
+      <th>O346</th>
+    </tr>
+    {% for row in data %}
+      <tr>
+        <td>{{ row.id }}</td>
+        <td>{{ row.avgg }}</td>
+        <td>{{ row.cbm }}</td>
+        <td>{{ row.item }}</td>
+        <td>{{ row.o305 }}</td>
+        <td>{{ row.o306 }}</td>
+        <td>{{ row.o307 }}</td>
+        <td>{{ row.o308 }}</td>
+        <td>{{ row.o309 }}</td>
+        <td>{{ row.o342 }}</td>
+        <td>{{ row.o344 }}</td>
+        <td>{{ row.o346 }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

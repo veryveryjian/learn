@@ -1,0 +1,33 @@
+
+
+{% block content %}
+  <h1>Ct Room Status</h1>
+  <table>
+    <tr>
+      <th>CBM</th>
+      <th>Item</th>
+      <th>Total</th>
+      <th>NY</th>
+      <th>NJ4_2</th>
+      <th>CT</th>
+      <th>PA1_7</th>
+      <th>Num</th>
+      <th>On Hand</th>
+      <th>Date</th>
+    </tr>
+    {% for row in data %}
+      <tr>
+        <td>{{ row.cbm }}</td>
+        <td>{{ row.item }}</td>
+        <td>{{ row.total }}</td>
+        <td>{{ row.ny }}</td>
+        <td>{{ row.nj4_2 }}</td>
+        <td>{{ row.ct }}</td>
+        <td>{{ row.pa1_7 }}</td>
+        <td>{{ row.num }}</td>
+        <td>{{ row.on_hand }}</td>
+        <td>{{ row.date }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

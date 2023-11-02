@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Allcolor</title>
+</head>
+<body>
+
+<h1>Allcolor</h1>
+{% for allcolor in allcolors %}
+    <p>{{ allcolor.string_field_0 }} {{ allcolor.string_field_1 }} {{ allcolor.string_field_2 }} {{ allcolor.string_field_3 }} {{ allcolor.string_field_4 }} {{ allcolor.string_field_5 }}</p>
+{% endfor %}
+
+<a href="{% url 'index' %}">Back to Index</a>
+
+</body>
+</html>
