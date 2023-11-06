@@ -38,9 +38,16 @@ def index(request):
         'ORD3ACs': 'ord3ac_list',
         'ORDNware': 'ordNware',
         'CTC Room': 'ctcroom',
-        'CTC Room R1': 'ctcroom_r1',
+        'CTC Room213123 R1': 'ctcroom_r1',
         'Export to Excel': 'export_to_excel',
-        'Model Data': 'model_data',  # 추가
+        'Model Data': 'model_data',
+        '안녕' : 'ctcroom_r1',
+        'py_join': 'ord_full_join',
+        'py_union': 'ord-union-sum',
+        'sql_join': 'ord-join-sql',
+        '컬러필터r2':'color_filter_r2',
+
+
     }
     return render(request, 'index.html', {'urls': urls})
 
@@ -149,10 +156,14 @@ from django.db.models import F, Sum
 
 
 def color_filter_r1(request):
-    ct_acs = CtAc.objects.all()
+    #접근
+    ct_acs = CtAc.objects.all() #DB 접근
+    #컬러코드란 : 모델에 접근, 리스트(MS,평탄화:리스트 형태), 중복제거
     color_codes = CtAc.objects.values_list('color_code', flat=True).distinct()
+    #선택 컬러 = get방식으로 전송
     selected_color = request.GET.get('color_code')
     if selected_color:
+        #필터링 get방식 =
         ct_acs = ct_acs.filter(color_code=selected_color)
 
     ct_acs = ct_acs.annotate(qtycbm=F('on_hand') * F('cbm'))
@@ -278,11 +289,24 @@ def ctcroom_r1(request):
     data = CtRoomStatus.objects.all()
     zeroCBM_sum = 0
     for row in data:
+        #row.ny와 row.on_hand가 모두 None이 아닌 경우):
         row.on_hand_diff = row.ny - row.on_hand if row.ny and row.on_hand else None
+        #else None: 위 조건이 거짓일 경우 (즉, row.ny 또는 row.on_hand 중 하나라도 None인 경우):
         row.zero = 0 if row.on_hand_diff and row.on_hand_diff > 0 else row.on_hand_diff
+        #두 가지를 확인합니다.
+        # 첫째, row.on_hand_diff가 None이 아니어야 하고,
+        # 둘째, row.on_hand_diff 값이 0보다 커야 합니다.
+        # 즉, on_hand_diff가 양수일 경우를 의미합니다. 이 조건이 참이면:
         row.zeroCBM = row.zero * row.cbm if row.zero is not None and row.cbm is not None else None
+        # if row.zero is not None and row.cbm is not None: 먼저 이 조건을 평가합니다.
+        # 이는 row.zero와 row.cbm 둘 다 None이 아니어야 한다는 것을 의미합니다.
+        #  즉, 두 값 모두 유효한 숫자 값이어야 합니다. 이 조건이 만족되면:
         if row.zeroCBM is not None:
             zeroCBM_sum += row.zeroCBM
+        # zeroCBM_sum += row.zeroCBM:
+        # 만약 위의 조건이 참이면, zeroCBM_sum 변수에 row.zeroCBM 값을 더합니다
+        # (zeroCBM_sum = zeroCBM_sum + row.zeroCBM와 동일합니다).
+        # 이렇게 하여 모든 유효한 zeroCBM 값들의 합계를 구할 수 있습니다.
     context = {'data': data, 'zeroCBM_sum': zeroCBM_sum}
     return render(request, 'ctcroom_r1.html', context)
 
@@ -328,13 +352,15 @@ from django.shortcuts import render
 from .models import Po300, Po301
 
 def model_data(request):
-    model_name = request.GET.get('model_name')
+    model_name = request.GET.get('model_name', '')  # 기본값을 빈 문자열로 설정
     data = None
     if model_name == 'Po300':
         data = Po300.objects.all()
     elif model_name == 'Po301':
         data = Po301.objects.all()
+    # model_name이 비어 있으면, 데이터를 쿼리하지 않습니다.
     return render(request, 'model_data.html', {'data': data, 'model_name': model_name})
+
 
 from .models import Cw2Order
 from django.shortcuts import render
@@ -362,3 +388,120 @@ def order_data_list(request):
 
 
 
+from django.shortcuts import render
+from .models import Po300, Po301
+
+def ord_join_py(request):
+    po300_data = Po300.objects.all()
+    po301_data = Po301.objects.all()
+
+    # 데이터를 딕셔너리로 변환 (예: {id: model_instance})
+    po300_dict = {obj.id: obj for obj in po300_data}
+    po301_dict = {obj.id: obj for obj in po301_data}
+
+    # 모든 고유 ID를 가져옵니다 (set 연산으로)
+    all_ids = set(po300_dict.keys()) | set(po301_dict.keys())
+
+    # 두 모델의 데이터를 결합합니다
+    full_joined_data = []
+    for id_ in all_ids:
+        po300_obj = po300_dict.get(id_)
+        po301_obj = po301_dict.get(id_)
+        full_joined_data.append({'Po300': po300_obj, 'Po301': po301_obj})
+
+    context = {
+        'full_joined_data': full_joined_data
+    }
+
+    return render(request, 'ord_join_py.html', context)
+
+
+from django.shortcuts import render
+from django.db.models import F, Sum
+
+# ... rest of your imports and models
+
+from django.shortcuts import render
+from collections import defaultdict
+
+def ord_full_join(request):
+    # po300과 po301의 모든 데이터를 가져옵니다.
+    po300_data = Po300.objects.all()
+    po301_data = Po301.objects.all()
+
+    # 아이템 기준으로 pcs 값을 합산하기 위한 딕셔너리 생성
+    item_pcs_sum = defaultdict(int)
+
+    # Po300 데이터 처리
+    for entry in po300_data:
+        item_pcs_sum[entry.item] += entry.pcs or 0  # pcs가 None이면 0으로 처리
+
+    # Po301 데이터 처리
+    for entry in po301_data:
+        item_pcs_sum[entry.item] += entry.pcs or 0  # pcs가 None이면 0으로 처리
+
+    # 결과를 리스트로 변환
+    items_with_pcs = [{'item': item, 'pcs': pcs} for item, pcs in item_pcs_sum.items()]
+
+    return render(request, 'ord_full_join.html', {'items_with_pcs': items_with_pcs})
+
+
+
+from django.shortcuts import render
+from .models import Po300, Po301
+from django.db.models import Value, CharField
+from django.db.models.functions import Coalesce
+from django.db.models import OuterRef, Subquery
+
+from django.db import connection
+
+def ord_join_sql(request):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                COALESCE(po300.item, po301.item) as item,
+                po300.pcs as pcs_300,
+                po301.pcs as pcs_301
+            FROM
+                po300
+            FULL OUTER JOIN
+                po301 ON po300.item = po301.item
+        """)
+        result_list = cursor.fetchall()
+
+    # 결과를 템플릿에 전달할 수 있도록 딕셔너리로 변환
+    full_join_data = [{
+        'item': row[0],
+        'pcs_300': row[1],
+        'pcs_301': row[2]
+    } for row in result_list]
+
+    return render(request, 'ord_join_sql.html', {'full_join_data': full_join_data})
+
+
+from django.shortcuts import render
+from .models import Po300, Po301
+from django.db.models import Sum
+
+def ord_union_sum(request):
+    # Po300과 Po301에서 item과 pcs만 가져옵니다.
+    po300_items = Po300.objects.values('item').annotate(total_pcs=Sum('pcs'))
+    po301_items = Po301.objects.values('item').annotate(total_pcs=Sum('pcs'))
+
+    # 각 쿼리셋을 리스트로 변환한 다음 합칩니다.
+    combined_items = list(po300_items) + list(po301_items)
+
+    # 아이템을 기준으로 중복 제거를 위한 딕셔너리 생성
+    item_pcs_sum = {}
+    for entry in combined_items:
+        item = entry['item']
+        pcs = entry['total_pcs'] or 0  # pcs가 None이면 0으로 처리
+        if item in item_pcs_sum:
+            item_pcs_sum[item] += pcs
+        else:
+            item_pcs_sum[item] = pcs
+
+    # 결과를 리스트로 변환
+    items_with_pcs = [{'item': item, 'pcs': pcs} for item, pcs in item_pcs_sum.items()]
+
+    return render(request, 'ord_union_sum.html', {'items_with_pcs': items_with_pcs})

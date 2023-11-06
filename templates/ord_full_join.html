@@ -1,0 +1,12 @@
+<table>
+  <tr>
+    <th>Item</th>
+    <th>Pcs</th>
+  </tr>
+  {% for entry in items_with_pcs %}
+  <tr>
+    <td>{{ entry.item }}</td>
+    <td>{{ entry.pcs }}</td>
+  </tr>
+  {% endfor %}
+</table>

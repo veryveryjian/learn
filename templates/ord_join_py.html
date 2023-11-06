@@ -1,0 +1,28 @@
+{% block content %}
+  <h1>Order Join Python</h1>
+
+  {% if full_joined_data %}
+    <table>
+      <tr>
+        <th>Po300 Item</th>
+        <th>Po300 Pcs</th>
+        <th>Po300 Date</th>
+        <th>Po301 Item</th>
+        <th>Po301 Pcs</th>
+        <th>Po301 Date</th>
+      </tr>
+      {% for row in full_joined_data %}
+        <tr>
+          <td>{{ row.Po300.item if row.Po300 else 'None' }}</td>
+          <td>{{ row.Po300.pcs if row.Po300 else 'None' }}</td>
+          <td>{{ row.Po300.date if row.Po300 else 'None' }}</td>
+          <td>{{ row.Po301.item if row.Po301 else 'None' }}</td>
+          <td>{{ row.Po301.pcs if row.Po301 else 'None' }}</td>
+          <td>{{ row.Po301.date if row.Po301 else 'None' }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No data available.</p>
+  {% endif %}
+{% endblock %}

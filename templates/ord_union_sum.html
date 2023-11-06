@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Item and PCS Summary</title>
+</head>
+<body>
+    <h1>Item and PCS Summary</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Total PCS</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in items_with_pcs %}
+            <tr>
+                <td>{{ entry.item }}</td>
+                <td>{{ entry.pcs }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -7,6 +7,10 @@ from myapp.views import ctcroom
 from myapp.views import ctcroom_r1
 from myapp.views import export_to_excel, model_data
 from myapp.views import order_data_list
+from myapp.views import ord_join_py
+from myapp.views import ord_full_join, ord_join_sql, ord_union_sum
+
+
 
 
 
@@ -37,5 +41,9 @@ urlpatterns = [
     path('export_to_excel/', export_to_excel, name='export_to_excel'),
     path('model_data/', model_data, name='model_data'),  # 추가
     path('orders/', order_data_list, name='order-data-list'),
+    path('ord-join-py/', ord_join_py, name='ord_join_py'),
+    path('ord-full-join/', ord_full_join, name='ord_full_join'),
+    path('ord-join-sql/', ord_join_sql, name='ord-join-sql'),
+    path('ord-union-sum/', ord_union_sum, name='ord-union-sum'),
 
 ]

@@ -3,8 +3,9 @@
 
   <form method="get" action="{% url 'model_data' %}">
     <select name="model_name" onchange="this.form.submit()">
-      <option value="Po300">Po300</option>
-      <option value="Po301">Po301</option>
+      <option value="">Select a model</option>
+      <option value="Po300" {% if model_name == 'Po300' %}selected{% endif %}>Po300</option>
+      <option value="Po301" {% if model_name == 'Po301' %}selected{% endif %}>Po301</option>
     </select>
   </form>
 
